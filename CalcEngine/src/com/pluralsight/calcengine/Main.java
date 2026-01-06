@@ -4,19 +4,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        double[] leftVals = {100.0d, 25.0d, 225.0d, 11.0d};
-        double[] rightVals = {50.0d, 52.0d, 17.0d, 3.0d};
-        char[] opCodes = {'d', 'a', 's', 'm'};
-        double[] results = new double[opCodes.length];
-
         if (args.length == 0) {
-            for (int i = 0; i < opCodes.length; i++) {
-                results[i] = execute(opCodes[i], leftVals[i], rightVals[i]);
-            }
-
-            for (double currentResult : results) {
-                System.out.println(currentResult);
-            }
+            performCalculations();
         } else if (args.length == 1 && args[0].equals("interactive")) {
             executeInteractively();
         } else if (args.length == 3) {
@@ -24,6 +13,27 @@ public class Main {
         } else {
             System.out.println("Please provide an operation code and 2 numeric values.");
         }
+    }
+
+    static void performCalculations() {
+        MathEquation[] equations = new MathEquation[4];
+        equations[0] = new MathEquation('d',100.0d, 50.0d);
+        equations[1] = new MathEquation('a', 25.0d, 225.0d);
+        equations[2] = new MathEquation('s',17.0d, 3.0d);
+        equations[3] = new MathEquation('m', 3.0d, 17.0d);
+
+        for (MathEquation equation : equations) {
+            equation.execute();
+            System.out.println("result = " + equation.result);
+        }
+
+        System.out.println("Average result = " + MathEquation.getAverageResult());
+
+        MathEquation equationsOverload = new MathEquation('d');
+        double leftDouble = 9.0d;
+        double rightDouble = 9.0d;
+        equationsOverload.execute(leftDouble, rightDouble);
+        System.out.println("Overload result with doubles: = " + equationsOverload.getResult());
     }
 
     static void executeInteractively() {
@@ -90,7 +100,7 @@ public class Main {
             case 'd':
                 result = leftVal / rightVal; break;
             default:
-                System.out.println("Invalid opCOde: " + opCode);
+                System.out.println("Invalid opCode: " + opCode);
                 result = 0.0d;
                 break;
         }
