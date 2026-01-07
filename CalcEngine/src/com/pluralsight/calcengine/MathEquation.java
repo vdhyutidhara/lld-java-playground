@@ -1,19 +1,19 @@
 package com.pluralsight.calcengine;
 
 public class MathEquation {
-    double leftVal, rightVal, result;
-    char opCode;
+    private double leftVal, rightVal, result;
+    private MathOperation opCode;
 
     private static int numberOfCalculations;
     private static double sumOfResults;
 
     public MathEquation() {}
 
-    public MathEquation(char opCode) {
+    public MathEquation(MathOperation opCode) {
         this.opCode = opCode;
     }
 
-    public MathEquation(char opCode, double leftVal, double rightVal) {
+    public MathEquation(MathOperation opCode, double leftVal, double rightVal) {
         this(opCode);
         this.leftVal = leftVal;
         this.rightVal = rightVal;
@@ -21,13 +21,13 @@ public class MathEquation {
 
     void execute() {
         switch (opCode) {
-            case 'a':
+            case ADD:
                 result = leftVal + rightVal; break;
-            case 's':
+            case SUBTRACT:
                 result = leftVal - rightVal; break;
-            case 'm':
+            case MULTIPLY:
                 result = leftVal * rightVal; break;
-            case 'd':
+            case DIVIDE:
                 result = leftVal / rightVal; break;
             default:
                 System.out.println("Invalid opCode: " + opCode);
@@ -44,6 +44,28 @@ public class MathEquation {
         this.rightVal = rightVal;
 
         execute();
+    }
+
+    public void execute(int leftVal, int rightVal) {
+        this.leftVal = leftVal;
+        this.rightVal = rightVal;
+        execute();
+
+        result = (int)result;
+    }
+
+    @Override
+    public String toString() {
+        char symbol = opCode.getSymbol();
+        StringBuilder builder = new StringBuilder(20);
+        builder.append(leftVal);
+        builder.append(' ');
+        builder.append(symbol);
+        builder.append(' ');
+        builder.append(rightVal);
+        builder.append(" = ");
+        builder.append(result);
+        return builder.toString();
     }
 
     public static double getAverageResult() {
@@ -64,6 +86,14 @@ public class MathEquation {
 
     public void setRightVal(double rightVal) {
         this.rightVal =  rightVal;
+    }
+
+    public MathOperation getOpCode() {
+        return opCode;
+    }
+
+    public void setOpCode(MathOperation opCode) {
+        this.opCode = opCode;
     }
 
     public String getResult() {
